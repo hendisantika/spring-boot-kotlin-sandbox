@@ -91,4 +91,22 @@ class HomeController(
             fetchPokemonByName(OkHttpClient(), name)
         }
     }
+
+    suspend fun fetchPokemon(client: OkHttpClient, id: Int): PokemonRestResponse? {
+        val request = Request.Builder()
+            .url("https://pokeapi.co/api/v2/pokemon/$id")
+            .build()
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) {
+                return null
+            }
+
+            val json = response.body?.string() ?: return null
+            val jsonParser = Json {
+                ignoreUnknownKeys = true
+            }
+            val parsed = jsonParser.decodeFromString<PokemonRestResponse>(json)
+            return parsed
+        }
+    }
 }
