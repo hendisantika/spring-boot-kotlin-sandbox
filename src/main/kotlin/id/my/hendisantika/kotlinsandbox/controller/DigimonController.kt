@@ -28,4 +28,12 @@ class DigimonController {
 
     private val client = OkHttpClient()
     private val mapper = jacksonObjectMapper()
+
+    private fun safeApiCall(block: () -> Digimon): DigimonResult {
+        return try {
+            DigimonResult.Success(block())
+        } catch (e: Exception) {
+            DigimonResult.Error(e.message ?: "Unknown error")
+        }
+    }
 }
