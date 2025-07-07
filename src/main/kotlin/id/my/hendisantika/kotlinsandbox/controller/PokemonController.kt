@@ -1,6 +1,8 @@
 package id.my.hendisantika.kotlinsandbox.controller
 
+import kotlinx.serialization.Serializable
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
@@ -16,6 +18,15 @@ import org.springframework.web.bind.annotation.RestController
  * Time: 06.08
  * To change this template use File | Settings | File Templates.
  */
+
+@Serializable
+data class Pokemon(
+    val id: Int,
+    val name: String,
+    val weight: Int,
+    val height: Int
+)
+
 @RestController
 class PokemonController {
     @GetMapping("/pokemonx/{id}")
