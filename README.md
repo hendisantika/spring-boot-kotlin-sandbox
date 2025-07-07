@@ -46,22 +46,61 @@ The application will start on port 8080 by default.
 ### Home Controller
 
 - `GET /` - Simple coroutine example
+  ```bash
+  curl http://localhost:8080/
+  ```
+
 - `GET /pokemon/{id}` - Get Pokemon by ID
+  ```bash
+  curl http://localhost:8080/pokemon/1
+  ```
+
 - `GET /pokemon/range?start={start}&end={end}` - Get Pokemon in a range
+  ```bash
+  curl "http://localhost:8080/pokemon/range?start=1&end=5"
+  ```
+
 - `GET /pokemon/x/{id}` - Get Pokemon by ID with enhanced error handling
+  ```bash
+  curl http://localhost:8080/pokemon/x/25
+  ```
+
 - `GET /pokemon/name/{name}` - Get Pokemon by name
+  ```bash
+  curl http://localhost:8080/pokemon/name/pikachu
+  ```
 
 ### Digimon Controller
 
 - `GET /digimon/{name}` - Get Digimon by name
+  ```bash
+  curl http://localhost:8080/digimon/agumon
+  ```
 
 ### Other Controllers
 
 The project includes several other controllers demonstrating different features:
 
 - User Controller
+  ```bash
+  # Get list of users
+  curl http://localhost:8080/users
+
+  # Get user count
+  curl http://localhost:8080/users/count
+  ```
+
 - Location Controller
+  ```bash
+  # Get location by ID
+  curl http://localhost:8080/locations/1
+  ```
+
 - Extension Class Controller
+  ```bash
+  # Get user by ID with capitalized first name
+  curl http://localhost:8080/extension_class/user/1
+  ```
 
 ## Features Demonstrated
 
