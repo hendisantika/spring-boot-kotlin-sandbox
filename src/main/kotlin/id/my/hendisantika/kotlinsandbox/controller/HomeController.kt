@@ -2,6 +2,7 @@ package id.my.hendisantika.kotlinsandbox.controller
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import id.my.hendisantika.kotlinsandbox.entity.PokemonRestResponse
+import id.my.hendisantika.kotlinsandbox.entity.PokemonResult
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
@@ -74,6 +75,13 @@ class HomeController(
                 fetchPokemon(OkHttpClient(), 2)
             }
             listOf(result1.await(), result2.await())
+        }
+    }
+
+    @GetMapping("/pokemon/x/{id}")
+    fun getPokemonByIdX(@PathVariable id: Int): PokemonResult {
+        return runBlocking {
+            fetchPokemonX(OkHttpClient(), id)
         }
     }
 }
