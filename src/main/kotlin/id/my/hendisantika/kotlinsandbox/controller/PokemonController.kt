@@ -1,6 +1,7 @@
 package id.my.hendisantika.kotlinsandbox.controller
 
-import kotlinx.serialization.Serializable
+import id.my.hendisantika.kotlinsandbox.entity.PokemonRestResponse
+import id.my.hendisantika.kotlinsandbox.entity.PokemonResult
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -20,40 +21,27 @@ import org.springframework.web.bind.annotation.RestController
  * To change this template use File | Settings | File Templates.
  */
 
-@Serializable
-data class Pokemon(
-    val id: Int,
-    val name: String,
-    val weight: Int,
-    val height: Int
-)
-
-sealed class PokemonOperationResult {
-    data class Success(val pokemon: Pokemon) : PokemonOperationResult()
-    data class Error(val message: String) : PokemonOperationResult()
-}
-
 @RestController
 class PokemonController {
     @GetMapping("/pokemonx/{id}")
-    fun getPokemonById(@PathVariable id: Int): PokemonOperationResult {
+    fun getPokemonById(@PathVariable id: Int): PokemonResult {
         return fetchPokemon(id)
     }
 
-    fun fetchPokemon(id: Int): PokemonOperationResult {
+    fun fetchPokemon(id: Int): PokemonResult {
         val request = Request.Builder()
             .url("https://pokeapi.co/api/v2/pokemon/$id")
             .build()
 
         OkHttpClient().newCall(request).execute().use { response ->
             if (!response.isSuccessful) {
-                return PokemonOperationResult.Error("Failed to fetch Pokemon: HTTP ${response.code}")
+                return PokemonResult.Error("Failed to fetch Pokemon: HTTP ${response.code}")
             }
             val jsonParser = Json {
                 ignoreUnknownKeys = true
             }
-            val parsed = jsonParser.decodeFromString<Pokemon>(response.body?.string() ?: "")
-            return PokemonOperationResult.Success(parsed)
+            val parsed = jsonParser.decodeFromString<PokemonRestResponse>(response.body?.string() ?: "")
+            return PokemonResult.Success(parsed)
         }
     }
 }

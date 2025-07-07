@@ -1,6 +1,9 @@
 package id.my.hendisantika.kotlinsandbox.controller
 
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import id.my.hendisantika.kotlinsandbox.entity.DigimonRestResponse
+import id.my.hendisantika.kotlinsandbox.entity.DigimonResult
 import okhttp3.OkHttpClient
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
@@ -21,17 +24,10 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/digimon")
 class DigimonController {
-    data class Digimon(val name: String, val img: String, val level: String)
-
-    sealed class DigimonResult {
-        data class Success(val digimon: Digimon) : DigimonResult()
-        data class Error(val message: String) : DigimonResult()
-    }
-
     private val client = OkHttpClient()
     private val mapper = jacksonObjectMapper()
 
-    private fun safeApiCall(block: () -> Digimon): DigimonResult {
+    private fun safeApiCall(block: () -> DigimonRestResponse): DigimonResult {
         return try {
             DigimonResult.Success(block())
         } catch (e: Exception) {
@@ -53,11 +49,12 @@ class DigimonController {
 
                 val body = response.body?.string() ?: throw RuntimeException("Empty response body")
 
-                val list: List<Digimon> = mapper.readValue(body)
+                val typeRef = object : TypeReference<List<DigimonRestResponse>>() {}
+                val list: List<DigimonRestResponse> = mapper.readValue(body, typeRef)
                 if (list.isEmpty()) {
                     throw RuntimeException("No Digimon found")
                 }
-                list.find { it.name.lowercase() == name } ?: throw RuntimeException("Digimon not found")
+                list.find { it.name.lowercase() == name.lowercase() } ?: throw RuntimeException("Digimon not found")
             }
         }
         return result.let {

@@ -3,6 +3,7 @@ package id.my.hendisantika.kotlinsandbox.controller
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import id.my.hendisantika.kotlinsandbox.entity.PokemonRestResponse
 import id.my.hendisantika.kotlinsandbox.entity.PokemonResult
+import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.servlet.function.ServerResponse.async
 
 /**
  * Created by IntelliJ IDEA.

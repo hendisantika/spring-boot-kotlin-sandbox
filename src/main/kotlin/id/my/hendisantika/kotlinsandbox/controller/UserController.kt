@@ -1,11 +1,11 @@
 package id.my.hendisantika.kotlinsandbox.controller
 
+import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.time.delay
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.servlet.function.ServerResponse.async
 
 /**
  * Created by IntelliJ IDEA.
