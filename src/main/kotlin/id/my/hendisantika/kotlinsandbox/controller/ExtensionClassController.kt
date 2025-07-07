@@ -29,6 +29,11 @@ data class ReqResUser(
     val avatar: String
 )
 
+sealed class ReqResResult {
+    data class Success(val data: ReqResData) : ReqResResult()
+    data class Error(val message: String) : ReqResResult()
+}
+
 @RestController
 @RequestMapping("/extension_class")
 class ExtensionClassController {
