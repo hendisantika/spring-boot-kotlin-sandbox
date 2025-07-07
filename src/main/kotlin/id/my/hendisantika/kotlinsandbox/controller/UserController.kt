@@ -34,4 +34,16 @@ class UserController {
             deferredUsers.awaitAll()
         }
     }
+
+    @GetMapping("/users/count")
+    fun getUserCount(): Map<String, Int> {
+        return runBlocking {
+            val count = async {
+                // Simulate database query
+                delay(200)
+                4
+            }
+            mapOf("count" to count.await())
+        }
+    }
 }
