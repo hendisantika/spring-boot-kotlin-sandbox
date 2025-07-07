@@ -84,4 +84,11 @@ class HomeController(
             fetchPokemonX(OkHttpClient(), id)
         }
     }
+
+    @GetMapping("/pokemon/name/{name}")
+    fun getPokemonByName(@PathVariable name: String): PokemonResult {
+        return runBlocking {
+            fetchPokemonByName(OkHttpClient(), name)
+        }
+    }
 }
