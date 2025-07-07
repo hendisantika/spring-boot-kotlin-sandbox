@@ -1,7 +1,10 @@
 package id.my.hendisantika.kotlinsandbox.controller
 
+import kotlinx.coroutines.runBlocking
 import org.springframework.kafka.core.KafkaTemplate
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.servlet.function.ServerResponse.async
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,4 +20,17 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class HomeController(
     private val kafkaTemplate: KafkaTemplate<String, String>
-)
+) {
+    @GetMapping("/")
+    fun index(): String {
+        return runBlocking {
+            val result = async {
+                "john"
+            }
+            val result2 = async {
+                "doe"
+            }
+            "${result.await()} ${result2.await()}"
+        }
+    }
+}
