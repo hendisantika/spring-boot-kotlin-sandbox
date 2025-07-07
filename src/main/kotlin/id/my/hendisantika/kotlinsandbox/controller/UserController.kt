@@ -1,6 +1,11 @@
 package id.my.hendisantika.kotlinsandbox.controller
 
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.time.delay
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.servlet.function.ServerResponse.async
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,4 +19,19 @@ import org.springframework.web.bind.annotation.RestController
  * To change this template use File | Settings | File Templates.
  */
 @RestController
-class UserController
+class UserController {
+    @GetMapping("/users")
+    fun getUsers(): List<String> {
+        return runBlocking {
+            val users = listOf("John", "Jane", "Bob", "Alice")
+            val deferredUsers = users.map { user ->
+                async {
+                    // Simulate some processing time
+                    delay(100)
+                    user.uppercase()
+                }
+            }
+            deferredUsers.awaitAll()
+        }
+    }
+}
