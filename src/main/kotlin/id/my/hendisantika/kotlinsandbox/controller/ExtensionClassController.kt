@@ -1,5 +1,6 @@
 package id.my.hendisantika.kotlinsandbox.controller
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import okhttp3.OkHttpClient
 import org.springframework.web.bind.annotation.PathVariable
@@ -19,6 +20,14 @@ import org.springframework.web.bind.annotation.RestController
  */
 @Serializable
 data class ReqResData(val data: ReqResUser)
+
+@Serializable
+data class ReqResUser(
+    val id: Int,
+    @SerialName("first_name") val firstName: String,
+    @SerialName("last_name") val lastName: String,
+    val avatar: String
+)
 
 @RestController
 @RequestMapping("/extension_class")
