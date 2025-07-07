@@ -1,6 +1,7 @@
 package id.my.hendisantika.kotlinsandbox.controller
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.springframework.web.bind.annotation.GetMapping
@@ -26,6 +27,11 @@ data class Pokemon(
     val weight: Int,
     val height: Int
 )
+
+sealed class PokemonOperationResult {
+    data class Success(val pokemon: Pokemon) : PokemonOperationResult()
+    data class Error(val message: String) : PokemonOperationResult()
+}
 
 @RestController
 class PokemonController {
