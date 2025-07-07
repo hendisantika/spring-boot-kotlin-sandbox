@@ -1,5 +1,6 @@
 package id.my.hendisantika.kotlinsandbox.controller
 
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -16,4 +17,11 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 @RequestMapping("/extension_class")
-class ExtensionClassController
+class ExtensionClassController {
+    @RequestMapping("/user/{id}")
+    fun getUserByID(@PathVariable id: Int): ReqResData? {
+        return fetchUserById(id).getOrNull()?.let {
+            it.copy(data = it.data.copy(firstName = it.data.firstName.capitalizeWords()))
+        }
+    }
+}
