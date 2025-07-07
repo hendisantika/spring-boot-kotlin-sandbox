@@ -21,3 +21,9 @@ data class LocationRestResponse(
     val names: List<LocationName>,
     val areas: List<LocationArea>
 )
+
+@Serializable
+data class LocationRegion(
+    val name: String,
+    val url: String
+)
