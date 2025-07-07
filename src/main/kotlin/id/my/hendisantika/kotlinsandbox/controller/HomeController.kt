@@ -134,4 +134,26 @@ class HomeController(
             PokemonResult.Error("Error fetching Pokemon: ${e.message}")
         }
     }
+
+    private suspend fun fetchPokemonByName(client: OkHttpClient, name: String): PokemonResult {
+        val request = Request.Builder()
+            .url("https://pokeapi.co/api/v2/pokemon/${name.lowercase()}")
+            .build()
+        return try {
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) {
+                    return PokemonResult.Error("Failed to fetch Pokemon: HTTP ${response.code}")
+                }
+
+                val json = response.body?.string() ?: return PokemonResult.Error("Empty response body")
+                val jsonParser = Json {
+                    ignoreUnknownKeys = true
+                }
+                val parsed = jsonParser.decodeFromString<PokemonRestResponse>(json)
+                PokemonResult.Success(parsed)
+            }
+        } catch (e: Exception) {
+            PokemonResult.Error("Error fetching Pokemon: ${e.message}")
+        }
+    }
 }
