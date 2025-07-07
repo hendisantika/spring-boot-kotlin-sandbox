@@ -5,7 +5,9 @@ import id.my.hendisantika.kotlinsandbox.entity.PokemonRestResponse
 import id.my.hendisantika.kotlinsandbox.entity.PokemonResult
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -107,6 +109,29 @@ class HomeController(
             }
             val parsed = jsonParser.decodeFromString<PokemonRestResponse>(json)
             return parsed
+        }
+    }
+
+    suspend fun fetchPokemonX(client: OkHttpClient, id: Int): PokemonResult {
+        return try {
+            val request = Request.Builder()
+                .url("https://pokeapi.co/api/v2/pokemon/$id")
+                .build()
+
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) {
+                    return PokemonResult.Error("Failed to fetch Pokemon: HTTP ${response.code}")
+                }
+
+                val json = response.body?.string() ?: return PokemonResult.Error("Empty response body")
+                val jsonParser = Json {
+                    ignoreUnknownKeys = true
+                }
+                val parsed = jsonParser.decodeFromString<PokemonRestResponse>(json)
+                PokemonResult.Success(parsed)
+            }
+        } catch (e: Exception) {
+            PokemonResult.Error("Error fetching Pokemon: ${e.message}")
         }
     }
 }
