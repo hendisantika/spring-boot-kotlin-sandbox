@@ -34,6 +34,8 @@ sealed class ReqResResult {
     data class Error(val message: String) : ReqResResult()
 }
 
+fun ReqResResult.getOrNull(): ReqResData? = if (this is ReqResResult.Success) data else null
+
 @RestController
 @RequestMapping("/extension_class")
 class ExtensionClassController {
