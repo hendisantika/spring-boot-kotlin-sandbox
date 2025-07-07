@@ -17,3 +17,4 @@ sealed class ApiResult<T> {
 }
 
 fun <T> ApiResult<T>.getOrNull(): T? = if (this is ApiResult.Success) data else null
+fun <T> ApiResult<T>.getOrDefault(default: T): T = if (this is ApiResult.Success) data else default
