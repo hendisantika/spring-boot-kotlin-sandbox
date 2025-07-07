@@ -64,4 +64,16 @@ class HomeController(
             deferredList.awaitAll().filterNotNull()
         }
     }
+
+    fun testSomething(): List<PokemonRestResponse?> {
+        return runBlocking {
+            val result1 = async {
+                fetchPokemon(OkHttpClient(), 1)
+            }
+            val result2 = async {
+                fetchPokemon(OkHttpClient(), 2)
+            }
+            listOf(result1.await(), result2.await())
+        }
+    }
 }
