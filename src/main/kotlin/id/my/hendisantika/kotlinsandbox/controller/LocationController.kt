@@ -1,5 +1,8 @@
 package id.my.hendisantika.kotlinsandbox.controller
 
+import id.my.hendisantika.kotlinsandbox.entity.LocationResult
+import kotlinx.coroutines.runBlocking
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -16,4 +19,11 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 @RequestMapping("/locations")
-class LocationController
+class LocationController {
+    @RequestMapping("/{id}")
+    fun getById(@PathVariable id: Int): LocationResult {
+        return runBlocking {
+            pokeAPIGetLocationById(id)
+        }
+    }
+}
