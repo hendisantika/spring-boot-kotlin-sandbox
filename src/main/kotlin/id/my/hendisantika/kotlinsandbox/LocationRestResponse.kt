@@ -33,3 +33,9 @@ data class LocationName(
     val name: String,
     val language: LocationLanguage
 )
+
+@Serializable
+data class LocationLanguage(
+    val name: String,
+    val url: String
+)
