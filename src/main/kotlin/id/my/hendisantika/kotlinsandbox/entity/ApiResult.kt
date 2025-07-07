@@ -1,4 +1,4 @@
-package id.my.hendisantika.kotlinsandbox
+package id.my.hendisantika.kotlinsandbox.entity
 
 /**
  * Created by IntelliJ IDEA.
