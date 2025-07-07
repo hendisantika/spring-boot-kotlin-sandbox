@@ -1,8 +1,12 @@
 package id.my.hendisantika.kotlinsandbox.controller
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import id.my.hendisantika.kotlinsandbox.entity.PokemonRestResponse
 import kotlinx.coroutines.runBlocking
+import okhttp3.OkHttpClient
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.function.ServerResponse.async
 
@@ -31,6 +35,18 @@ class HomeController(
                 "doe"
             }
             "${result.await()} ${result2.await()}"
+        }
+    }
+
+    @GetMapping("/pokemon/{id}")
+    fun getPokemonById(@PathVariable id: Int): PokemonRestResponse? {
+        return runBlocking {
+            val pokemon = fetchPokemon(OkHttpClient(), id)
+            pokemon?.let {
+                val message = jacksonObjectMapper().writeValueAsString(it)
+                kafkaTemplate.send("pokemon_events", message)
+            }
+            pokemon
         }
     }
 }
