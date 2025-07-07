@@ -36,6 +36,9 @@ sealed class ReqResResult {
 
 fun ReqResResult.getOrNull(): ReqResData? = if (this is ReqResResult.Success) data else null
 
+fun ReqResResult.getOrDefault(default: ReqResData): ReqResData =
+    if (this is ReqResResult.Success) data else default
+
 @RestController
 @RequestMapping("/extension_class")
 class ExtensionClassController {
