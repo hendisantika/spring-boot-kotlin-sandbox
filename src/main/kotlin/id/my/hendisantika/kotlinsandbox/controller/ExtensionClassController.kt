@@ -1,5 +1,6 @@
 package id.my.hendisantika.kotlinsandbox.controller
 
+import kotlinx.serialization.Serializable
 import okhttp3.OkHttpClient
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController
  * Time: 06.00
  * To change this template use File | Settings | File Templates.
  */
+@Serializable
+data class ReqResData(val data: ReqResUser)
+
 @RestController
 @RequestMapping("/extension_class")
 class ExtensionClassController {
