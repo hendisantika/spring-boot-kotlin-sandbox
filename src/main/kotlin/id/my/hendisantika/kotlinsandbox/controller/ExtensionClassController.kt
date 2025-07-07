@@ -3,6 +3,7 @@ package id.my.hendisantika.kotlinsandbox.controller
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -38,6 +39,9 @@ fun ReqResResult.getOrNull(): ReqResData? = if (this is ReqResResult.Success) da
 
 fun ReqResResult.getOrDefault(default: ReqResData): ReqResData =
     if (this is ReqResResult.Success) data else default
+
+fun String.capitalizeWords(): String =
+    split(" ").joinToString(" ") { word -> word.replaceFirstChar { it.uppercase() } }
 
 @RestController
 @RequestMapping("/extension_class")
