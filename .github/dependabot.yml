@@ -7,6 +7,23 @@ updates:
       time: '05:00'
       timezone: Asia/Jakarta
     open-pull-requests-limit: 10
+    commit-message:
+      prefix: "build(deps)"
+    groups:
+      # Kotlin Gradle plugins and stdlib must share one version
+      kotlin:
+        patterns:
+          - "org.jetbrains.kotlin*"
+      kotlinx:
+        patterns:
+          - "org.jetbrains.kotlinx*"
+      ktor:
+        patterns:
+          - "io.ktor*"
+      spring:
+        patterns:
+          - "org.springframework*"
+          - "io.spring*"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -14,3 +31,9 @@ updates:
       time: '05:00'
       timezone: Asia/Jakarta
     open-pull-requests-limit: 10
+    commit-message:
+      prefix: "ci(deps)"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
