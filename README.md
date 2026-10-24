@@ -1,5 +1,7 @@
 # Spring Boot Kotlin Sandbox
 
+[![Java CI with Gradle](https://github.com/hendisantika/spring-boot-kotlin-sandbox/actions/workflows/gradle.yml/badge.svg)](https://github.com/hendisantika/spring-boot-kotlin-sandbox/actions/workflows/gradle.yml)
+
 A sandbox project demonstrating various Kotlin features and integrations with Spring Boot.
 
 ## Description
@@ -17,21 +19,22 @@ examples of:
 
 ## Technologies Used
 
-- Kotlin 1.9.25
-- Spring Boot 3.5.3
-- Java 21
-- Gradle
+- Kotlin 2.4.21
+- Spring Boot 4.1.1
+- Java 25
+- Gradle 9.8.2 (via the wrapper)
 - Kotlin Coroutines
-- OkHttp & Ktor HTTP clients
+- OkHttp & Ktor 3 HTTP clients
 - Jackson & Kotlinx Serialization
 - Spring Kafka
 - Lombok
 
 ## Prerequisites
 
-- JDK 21
-- Gradle
-- Kafka (optional, for messaging features)
+- JDK 25
+- Kafka (optional, for messaging features; defaults to `localhost:9092`)
+
+No local Gradle install is needed: use the bundled `./gradlew` wrapper.
 
 ## Getting Started
 
@@ -110,6 +113,14 @@ The project includes several other controllers demonstrating different features:
 - **Error Handling**: Using sealed classes for the Result pattern
 - **Kafka Integration**: Publishing messages to Kafka topics
 - **Extension Functions**: Kotlin's ability to extend existing classes
+
+## CI & Dependency Updates
+
+- **GitHub Actions** (`.github/workflows/gradle.yml`) builds and tests every push and pull request to `main` on
+  Temurin JDK 25, and submits the dependency graph for Dependabot alerts.
+- **Dependabot** (`.github/dependabot.yml`) checks Gradle and GitHub Actions dependencies daily at 05:00 (Asia/Jakarta).
+  Related libraries are grouped into a single PR (Kotlin, kotlinx, Ktor, Spring, GitHub Actions) so that
+  versions that must match, such as the Kotlin Gradle plugins, are always bumped together.
 
 ## Contributing
 
